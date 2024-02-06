@@ -1,7 +1,6 @@
 import streamlit as st
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
 import seaborn as sns
 import sweetviz as sv
 
@@ -24,29 +23,4 @@ if st.checkbox('Show Sample Data'):
 st.write('Dataset Shape:', df.shape)
 
 # Check for missing values
-st.write('Missing Values:', df.isnull().sum())
-
-# Analyze the dataset
-advert_report = sv.analyze(df)
-
-# Display the Sweetviz report
-st.write(advert_report)
-
-# Convert TotalCharges to numeric
-df["TotalCharges"] = pd.to_numeric(df["TotalCharges"], errors='coerce')
-
-# Plot MonthlyCharges vs TotalCharges
-st.subheader('Monthly Charges vs Total Charges')
-fig, ax = plt.subplots()
-sns.regplot(data=df, x='MonthlyCharges', y='TotalCharges', ax=ax)
-st.pyplot(fig)
-
-# Display correlation heatmap
-st.subheader('Correlation Heatmap')
-plt.figure(figsize=(10, 8))
-sns.heatmap(corr, annot=True, fmt=".2f", linewidth=.5)
-st.pyplot()
-
-# Display value counts of Churn
-st.subheader('Churn Value Counts')
-st.write(df['Churn'].value_counts())
+st.write(
