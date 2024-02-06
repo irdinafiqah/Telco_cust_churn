@@ -43,7 +43,6 @@ st.pyplot(fig)
 
 # Display correlation heatmap
 st.subheader('Correlation Heatmap')
-corr = df.corr(method='pearson')
 plt.figure(figsize=(10, 8))
 sns.heatmap(corr, annot=True, fmt=".2f", linewidth=.5)
 st.pyplot()
