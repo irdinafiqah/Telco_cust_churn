@@ -23,4 +23,28 @@ if st.checkbox('Show Sample Data'):
 st.write('Dataset Shape:', df.shape)
 
 # Check for missing values
-st.write(
+st.write('Missing Values:', df.isnull().sum())
+
+# Analyze the dataset
+advert_report = sv.analyze(df)
+
+# Display the Sweetviz report
+st.write(advert_report)
+
+# Convert TotalCharges to numeric
+df["TotalCharges"] = pd.to_numeric(df["TotalCharges"], errors='coerce')
+
+# Plot MonthlyCharges vs TotalCharges
+st.subheader('Monthly Charges vs Total Charges')
+fig, ax = plt.subplots()
+sns.regplot(data=df, x='MonthlyCharges', y='TotalCharges', ax=ax)
+st.pyplot(fig)
+
+# Display correlation heatmap
+st.subheader('Correlation Heatmap')
+corr = df.corr(method='pearson')
+st.write(sns.heatmap(corr, annot=True, fmt=".2f", linewidth=.5))
+
+# Display value counts of Churn
+st.subheader('Churn Value Counts')
+st.write(df['Churn'].value_counts())
