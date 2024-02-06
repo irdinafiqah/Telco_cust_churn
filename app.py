@@ -2,7 +2,9 @@ import streamlit as st
 import numpy as np
 import pandas as pd
 import seaborn as sns
+import matplotlib.pyplot as plt
 import sweetviz as sv
+import tempfile
 
 # Load the dataset
 @st.cache
@@ -38,12 +40,21 @@ df["TotalCharges"] = pd.to_numeric(df["TotalCharges"], errors='coerce')
 st.subheader('Monthly Charges vs Total Charges')
 fig, ax = plt.subplots()
 sns.regplot(data=df, x='MonthlyCharges', y='TotalCharges', ax=ax)
-st.pyplot(fig)
+temp_file = tempfile.NamedTemporaryFile(delete=False, suffix='.png')
+plt.savefig(temp_file.name)
+st.image(temp_file.name)
+temp_file.close()
+plt.close()
 
 # Display correlation heatmap
 st.subheader('Correlation Heatmap')
-corr = df.corr(method='pearson')
-st.write(sns.heatmap(corr, annot=True, fmt=".2f", linewidth=.5))
+plt.figure(figsize=(10, 8))
+sns.heatmap(corr, annot=True, fmt=".2f", linewidth=.5)
+temp_file = tempfile.NamedTemporaryFile(delete=False, suffix='.png')
+plt.savefig(temp_file.name)
+st.image(temp_file.name)
+temp_file.close()
+plt.close()
 
 # Display value counts of Churn
 st.subheader('Churn Value Counts')
